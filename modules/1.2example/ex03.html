@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>3</title>
+    <link href="css/03.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <p>test hide</p>
+    <div id="testhide" class="a">this will be hidden!</div>
+    <div id="testhighlight">this will be highlighted!</div>
+    <input type="button" onclick="hideitwithtrue()" value="hidewithtrue">
+    <br>
+    <input type="button" onclick="hideitwithfalse()" value="hidewithfalse">
+    <br>
+    <input type="button" onclick="highlightit()" value="highlightit">
+    <script>
+        //通过javascript操纵样式隐藏元素e
+        function hide(e,flag){
+            if(flag){  //如果参数时true，隐藏元素，其所占空间也消失
+                e.style.display = "none";
+            }else{
+                e.style.visibility = "hidden";    //隐藏元素，但保留其所占空间
+            }
+        }
+        //通过设置css高亮显示e
+        function highlight(e){
+            if(!e.className){
+                e.className = "highlight";
+            }else{
+                if(e.className.indexOf("highlight")<0 ){
+                    e.className += " highlight";
+                }
+            }
+        }
+        function hideitwithtrue(){
+            var e = document.getElementById("testhide");
+            hide(e,true);
+        }
+        function hideitwithfalse(){
+            var e = document.getElementById("testhide");
+            hide(e,false);
+        }
+        function highlightit(){
+            var e = document.getElementById("testhighlight");
+            highlight(e);
+        }
+
+    </script>
+</body>
+</html>
