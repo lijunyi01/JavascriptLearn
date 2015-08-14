@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>2</title>
+</head>
+<body>
+    <p>test debug</p>
+    <div id="debuglog2"></div>
+    <script>
+        function debug(msg){
+            var log = document.getElementById("debuglog");
+            //如果不存在id为debuglog的html元素，则创建一个div元素，并将id置为debuglog
+            if(!log){
+                log = document.createElement("div");
+                log.id = "debuglog";
+                log.innerHTML = "<h1>Debug Log</h1>";
+                document.body.appendChild(log);
+            }
+            //将msg包装在<pre>中，并添加到log中
+            var pre = document.createElement("pre");
+            var text = document.createTextNode(msg);
+            pre.appendChild(text);
+            log.appendChild(pre);
+        }
+        function sleep(){
+            alert("hehe");
+        }
+        function sleep2(){
+            alert("hehe2");
+        }
+        //setTimeout并不会使后续的语句延迟执行，只是延迟执行参数中的函数
+        setTimeout(sleep,5000);
+        //函数sleep2被立即执行，且只执行一遍。可以理解有“()”就是立即执行的意思
+        setTimeout(sleep2(),15000);
+        //debug("测试2")被立即执行，而不是延时10秒，因为debug("测试2")这个参数带了"()"，就将函数执行了；且一旦执行了，就不会过10秒再执行一遍
+        setTimeout(debug("测试2"),10000);
+        debug("测试");
+    </script>
+</body>
+</html>

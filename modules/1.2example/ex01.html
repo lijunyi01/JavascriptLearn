@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>1</title>
+</head>
+<body>
+    <p>test moveon</p>
+    <script>
+        function moveon(){
+            var answer = confirm("你准备好跳转了吗？");   //单击确定按钮，answer会被赋值true
+            if(answer){
+                window.location="http://www.baidu.com";
+            }
+        }
+        setTimeout(moveon,5000);   //5秒后执行moveon函数
+    </script>
+</body>
+</html>
