@@ -120,9 +120,27 @@
             if(!window.XMLHttpRequest) return;
             var ad = document.getElementById("lenders");
             if(!ad) return;
-            //对用户的输入数据进行URL编码
-            var url = "calculator?"+"amt="+encodeURIComponent(amount)+"&apr="+encodeURIComponent(apr)+"&yrs="+encodeURIComponent(years)+"&zip="+encodeURIComponent(zipcode);
-
+            //对用户的输入数据进行URL编码（进行GET方式请求时需要）
+            var url = "../calculator?"+"amt="+encodeURIComponent(amount)+"&apr="+encodeURIComponent(apr)+"&yrs="+encodeURIComponent(years)+"&zip="+encodeURIComponent(zipcode);
+            var req = new XMLHttpRequest();
+            req.open("GET",url);
+            //注册回调函数
+            req.onreadystatechange = function(){
+                //如果获得合法且完整的http响应
+                if(req.readyState == 4 && req.status ==200){
+                    //http响应是以字符串的形式呈现的
+                    var response = req.responseText;
+                    //将返回的JSON字串解析成JSON对象(这里将会解析出数组)
+                    var lenders = JSON.parse(response);
+                    var list = "";
+                    for(var i=0;i<lenders.length;i++){
+                        list += "<li><a href='" + lenders[i].url + "'>" + lenders[i].name + "</a></li>";
+                    }
+                    ad.innerHTML = "<ul>" + list + "</ul>";
+                }
+            };
+            //不带任何正文发送这个请求
+            req.send(null);
         }
 
     </script>

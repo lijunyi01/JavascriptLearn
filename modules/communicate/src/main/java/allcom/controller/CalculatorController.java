@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ljy on 15/5/12.
@@ -22,8 +24,9 @@ public class CalculatorController {
     private static Logger log = LoggerFactory.getLogger(CalculatorController.class);
 
     // ex04-calculator.html
+    // http://localhost:8080/calculator?amt=1000&apr=1&yrs=10&zip=10000
     @RequestMapping(value = "/calculator")
-    public RetMessage generalInterface(
+    public List<Lender> generalInterface(
             @RequestParam(value="amt",required = true) float amt,
             @RequestParam(value = "apr",required = true) float apr,
             @RequestParam(value = "yrs",required = true) int yrs,
@@ -31,12 +34,13 @@ public class CalculatorController {
             HttpServletRequest request
     ) {
         log.info("In calculator,amt is:"+amt +"; apr is:"+apr +"; yrs is:"+yrs +"; zip is:"+zip);
-        RetMessage ret = null;
-
-
-
-
-        return ret;
+        //实际应根据zip查找对应的lenders,并加入List。为了简化，直接写死
+        List<Lender> lenderList = new ArrayList<Lender>();
+        Lender lender1 = new Lender("url1","lendername1");
+        Lender lender2 = new Lender("url2","lendername2");
+        lenderList.add(lender1);
+        lenderList.add(lender2);
+        return lenderList;
     }
 
 }
