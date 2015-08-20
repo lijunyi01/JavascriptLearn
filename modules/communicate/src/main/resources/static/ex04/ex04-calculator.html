@@ -73,6 +73,7 @@
             var payments = parseFloat(years.value)*12;
             //幂次运算
             var x = Math.pow(1+interest,payments);
+            //每月还款额
             var monthly = (principal*x*interest)/(x-1);
             if(isFinite(monthly)){
                 //toFixed(2) 表示四舍五入到小数点后两位数字
@@ -159,7 +160,7 @@
             function paymentToX(n) {
                 return n * width / payments;
             }
-
+            //canvas的原点在左上角
             function amountToY(n) {
                 return height - (n * height / (monthly * payments * 1.05));
             }
@@ -173,7 +174,7 @@
             g.font = "bold 12px sans-serif";//定义一种字体
             //将文字绘制到图例中
             //很多资产数据并不是线性的，很难将其反映至图表中
-            g.fillText("Total Interest Payments", 20, 20);
+            g.fillText("Total Interest Payments", 20, 20);   //各月还款总额曲线（因每月等额，所以是线性的，是直线）
 
             var equity = 0;
             g.beginPath();//开始绘制新图形
@@ -181,7 +182,7 @@
 
             for(var p=1;p<=payments;p++){
                 var thisMonthsInterest = (principal - equity) * interest;
-                equity += (monthly - thisMonthsInterest);//得到资产额
+                equity += (monthly - thisMonthsInterest);//得到资产额（到某月为止用户偿还的本金总额）
                 g.lineTo(paymentToX(p), amountToY(equity));//将数据绘制到画布上
             }
 
@@ -189,7 +190,7 @@
             g.closePath();//将线条结尾连接至线条开头
             g.fillStyle = "green";//使用绿色绘制图形
             g.fill();//曲线之下的部分均填充
-            g.fillText("Total Equity", 20, 35);//文本颜色设置为绿色
+            g.fillText("Total Equity", 20, 35);//文本颜色设置为绿色  各月还的本金总额曲线（因每月还的本金逐月递增，所以是非线性的，是曲线）
 
             //再次循环，余额数据显示为黑色粗线条
             var bal = principal;
@@ -197,14 +198,14 @@
             g.moveTo(paymentToX(0), amountToY(bal));
             for(var p=1;p<=payments;p++){
                 var thisMonthsInterest = bal * interest;
-                bal -= (monthly - thisMonthsInterest);//得到资产额
+                bal -= (monthly - thisMonthsInterest);//得到资产额  （到某月为止用户借贷的本金余额）
                 g.lineTo(paymentToX(p), amountToY(bal));//将直线连接至某点
             }
 
             g.lineWidth = 3;//将直线宽度加粗
             g.stroke();//绘制余额的曲线
             g.fillStyle = "black";//使用黑色字体
-            g.fillText("Loan Balance", 20, 50);//图例文字
+            g.fillText("Loan Balance", 20, 50);//图例文字 //本金余额曲线
 
             //将年度数据在X轴做标记
             g.textAlign = "center";//文字居中对齐
